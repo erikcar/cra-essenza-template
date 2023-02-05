@@ -10,22 +10,22 @@ function LoginRecoverController(c) {
     c.skin = LoginRecover;
     c.state = null;
     c.command = {
-        RECOVERY: async (emailed, { model, route }) => {
+        RECOVERY: async (emailed, { model, route, app }) => {
             let form = c.form("loginrec-form");
             let result = await form.validate();
             if (result.isValid) {
-                model.read(AppModel, m => m.passwordRequest(result.data.temail, route).then(r => emailed(true)));
+                model.read(AppModel, m => m.passwordRequest(result.data.temail, route || app.settings.defaultRoute).then(r => emailed(true)));
             }
         }, 
-        RESEND: (d,{model}) =>{
+        RESEND: (d,{model, app}) =>{
             if(c.state){
-                model.read(AppModel, m => m.passwordRequest(c.state.temail, c.state.route).then(r => c.navigate("/loginrec")));
+                model.read(AppModel, m => m.passwordRequest(c.state.temail, c.state.route || app.settings.defaultRoute).then(r => c.navigate("/loginrec")));
             }
         }
     }
 }
 
-export function LoginRecover({ vmodel }) {
+export function LoginRecover({ route }) {
     const [control] = useControl(LoginRecoverController);
     const [emailed, setEmailed] = useState(false);
     const settings = useGraph("system.settings").data;
@@ -40,12 +40,12 @@ export function LoginRecover({ vmodel }) {
                     <FormixItem label="E-mail" name="temail">
                         <Input ></Input>
                     </FormixItem>
-                    <FormixItem>
-                        <Button className='block-pri h6' onClick={() => control.execute("RECOVERY", setEmailed, null, null, {route: settings.BaseUrl})}>
+                    <div className='text-right'>
+                        <Button className='btn-dark' onClick={() => control.execute("RECOVERY", setEmailed, null, null, {route: route})}>
                             Invia Richiesta
                         </Button>
-                    </FormixItem>
-                    <Button style={{ padding: '0' }} className='bolder h6 primary' type="link" onClick={() => control.navigate("/login")}>Torna a Login</Button>
+                    </div>
+                    <Button style={{ padding: '0' }} className='fw-6 fs-6 centered' type="link" onClick={() => control.navigate("/login")}>Torna a Login</Button>
                 </Formix>
                 : <>
                     <h6>Check your email to recover your password.</h6>

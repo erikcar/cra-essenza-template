@@ -8,10 +8,15 @@ import { useControl, useForm, Formix, FormixItem } from '@essenza/react';
 function LoginController(c) {
     c.skin = Login;
     c.command = {
-        LOGIN: async (name, { model, app }) => {
-            name = name || "login-form";
+        LOGIN: async (info, { model, app }) => {
+            let name = info.name || "login-form";
             const result = await c.form(name).validate();
             if (result.isValid) {
+                const call = [
+                    m => m.login(data.temail, data.tpassword),
+                    m => m.elogin(data.temail, data.tpassword, info.role),
+                    m => m.platformin(data.temail, data.tpassword, info.role)
+                ]
                 let data = result.values;
                 if (!data.temail) {
                     let instance = result.form.getFieldInstance("temail");
@@ -20,13 +25,13 @@ function LoginController(c) {
 
                     setTimeout(() => {
                         data = result.form.getFieldsValue(true);
-                        model.request(AppModel, m => m.login(data.temail, data.tpassword)).then(r => {
+                        model.request(AppModel, call[info.mode]).then(r => {
                             app.login(r);
                         });
                     }, 1000)
                 }
                 else {
-                    model.request(AppModel, m => m.login(data.temail, data.tpassword)).then(r => {
+                    model.request(AppModel, call[info.mode]).then(r => {
                         app.login(r);
                     });
                 }
@@ -35,8 +40,8 @@ function LoginController(c) {
     }
 }
 
-export function Login({ nosignin }) {
-
+export function Login({ nosignin, mode, role }) {
+    mode = mode || 0;
     const [control] = useControl(LoginController);
     const form = useForm("login-form", new DataSource({}), control, null, yup.object({
         temail: yup.string().required("Email è una informazione richiesta.").email("Formato email non corretto"),
@@ -51,16 +56,16 @@ export function Login({ nosignin }) {
     return (
         <Formix control={control} form={form} layout='vertical' className="layout-form">
             <FormixItem label="E-mail" name="temail">
-                <Input ></Input>
+                <Input></Input>
             </FormixItem>
             <FormixItem label="Password" name="tpassword">
-                <Input.Password onPressEnter={() => control.execute("LOGIN", "login-form")} ></Input.Password>
+                <Input.Password onPressEnter={() => control.execute("LOGIN", {mode: mode, role: role})} ></Input.Password>
             </FormixItem>
             <Button style={{ float: 'right' }} type="link" onClick={() => control.navigate("/loginrec")}>
                 Password dimenticata ?
             </Button>
             <FormixItem>
-                <Button className='block-pri h6' onClick={() => control.execute("LOGIN", "login-form")}>
+                <Button className='btn-dark' onClick={() => control.execute("LOGIN", {mode: mode, role: role})}>
                     Login
                 </Button>
             </FormixItem>

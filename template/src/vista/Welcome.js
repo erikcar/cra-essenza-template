@@ -1,8 +1,8 @@
 import { Button, Spin } from 'antd';
 import { Vista, useVista, useApp } from "@essenza/react";
 import { AppService } from "@essenza/core";
-import Logo from "../assets/img/logo.png";
 import { FirstAccess } from '../view/profile/login_firstaccess';
+import { Logo } from '../layout/logo';
 
 function WelcomeController(c) {
     c.skin = Welcome;
@@ -19,10 +19,8 @@ export function Welcome({content, token}) {
 
     if (!app.irequest)
         content = content || <>
-            {Logo && <img src={Logo} className="img-resize centered" style={{ marginTop: "120px"}} alt="Logo" />}
-            {/* <Spin /> */}
-            <h1 className='text-center'>Benvenuto</h1>
-            <Button className="centered" style={{ fontSize: '1.2em' }} type="link" onClick={() => app.navigate("/login")}>Vai al Login</Button>
+            <h1 className='text-center py-lg'>Benvenuto</h1>
+            <Button className="centered btn-dark" onClick={() => app.navigate("/login")}>Vai al Login</Button>
         </>;
     else if (app.irequest.type === "FA")
         content = <FirstAccess request={app.irequest} />;
@@ -32,13 +30,13 @@ export function Welcome({content, token}) {
     }
     else
         content = <>
-            {Logo && <img src={Logo} className="centered" style={{ marginTop: "120px" }} alt="Logo" />}
-            <Button className="centered" style={{ fontSize: '2.6em' }} type="link" onClick={() => app.navigate("/login")}>Vai al Login</Button>
+            <Button className="centered btn-dark" onClick={() => app.navigate("/login")}>Vai al Login</Button>
         </>;
     return (
         <Vista context={ctx} >
             <div className='content-max-width'>
-                <div className='block-middle-width centered'>
+                <div className='max-width-md centered'>
+                    <Logo className="centered" style={{ marginTop: "120px", }} />
                     {content}
                 </div>
             </div>

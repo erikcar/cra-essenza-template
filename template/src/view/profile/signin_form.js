@@ -51,12 +51,12 @@ export function Signin({ vmodel }) {
                 <Input.Password placeholder="confirm password"></Input.Password>
             </FormixItem>
             <FormixItem>
-                <Button className='block-pri h6' onClick={() => control.execute("SIGNIN", "signin-form", null, null, {route: settings.BaseUrl})}>
-                    Signin
+                <Button className='btn-dark' onClick={() => control.execute("SIGNIN", "signin-form", null, null, {route: settings.BaseUrl})}>
+                    Registarti
                 </Button>
             </FormixItem>
-            <p className="bold">Signed? <Button className='' type="link" onClick={() => control.navigate("/login")}>
-                Go to Login
+            <p className="bold">Signed? <Button className='fw-6 fs-6 centered' type="link" onClick={() => control.navigate("/login")}>
+                Torna al Login
             </Button></p>
         </Formix>
     )

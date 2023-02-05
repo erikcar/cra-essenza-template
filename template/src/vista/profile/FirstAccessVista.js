@@ -10,7 +10,7 @@ export function FirstAccessVista() {
     return (
         <Vista context={ctx} >
             <div className='content-max-width'>
-                <div className='block-middle-width centered'>
+                <div className='block-md-width centered'>
                     <FirstAccess />
                 </div>
             </div>

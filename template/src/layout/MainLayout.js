@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { Avatar, Col, Layout, Row, Tooltip } from "antd";
 import React from 'react';
-import { UserOutlined, HomeFilled } from '@ant-design/icons';
+import { UserOutlined, HomeFilled, SettingOutlined } from '@ant-design/icons';
+import { Logo } from "./logo";
 
 const { Header, Content } = Layout;
 
@@ -12,12 +13,26 @@ export function MainLayout({ token }) {
       <Layout className="layout">
         <Header className="layout-header">
           <Row>
-            <Col flex="auto">
-              <HomeFilled onClick={() => control.navigate("/")} style={{ color: 'white', fontSize: '24px' }} />
+          <Col flex="none">
+              <Logo style={{ height: "36px" }} />
             </Col>
-            <Col flex="none" className="avatar-column">
+            <Col flex="auto">
+
+            </Col>
+            <Col flex="none">
+              <HomeFilled onClick={() => control.navigate("/home")} style={{ color: 'white', fontSize: '24px' }} />
+            </Col>
+            <Col flex="auto">
+
+            </Col>
+            <Col flex="60px" className="avatar-column">
+              <Tooltip placement="bottom" title="Impostazioni" color="#2db7f5">
+                <SettingOutlined style={{ color: 'white', fontSize: '32px', verticalAlign: 'middle' }} className="pointer" onClick={() => control.navigate("/settings")} />
+              </Tooltip>
+            </Col>
+            <Col flex="none">
               <Tooltip placement="bottom" title="Profilo" color="#264395">
-                <Avatar className="pointer" onClick={() => control.navigate("/profile")} size={36} icon={<UserOutlined />} />
+                <Avatar className="pointer avatar-pri" onClick={() => control.navigate("/profile")} size={36} icon={<UserOutlined />} />
               </Tooltip>
             </Col>
           </Row>

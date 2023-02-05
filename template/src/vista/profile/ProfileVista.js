@@ -1,8 +1,8 @@
-import { Row, Col, Button} from 'antd';
+import { Row, Col, Button } from 'antd';
 import React, { useEffect } from 'react';
-import {useGraph, useModel, useVista, Vista } from '@essenza/react';
+import { useGraph, useModel, useVista, Vista } from '@essenza/react';
 import { ProfileForm } from '../../view/profile/ProfileForm';
-import { UserModel } from '../../model/UserModel';
+import { UserModel } from '@essenza/core';
 
 function ProfileVistaController(c) {
     c.skin = ProfileVista;
@@ -24,19 +24,23 @@ export function ProfileVista({ vmodel }) {
     return (
         <Vista context={ctx} >
             <div className="w100">
-                <div className="block-middle-width centered">
-                    <Row className='content-max-width h-main padding-sm' align='middle'>
-                        <Col span={24}><h1 style={{ marginBottom: '0' }} className='pt-md pb-sm'>Gestisci il tuo profilo</h1></Col>
-                        <Col span={24} >
-                            <Button type="link" onClick={() => control.navigate(-1)}>
-                                Torma alla App 
+                <div className="max-width-md centered padding-sm">
+                    <Row className=' padding-sm' align='middle'>
+                        {/* <Col><h1 className="spacing-b10"><span className="pointer" onClick={()=>control.navigate(-1)}>&lt;</span></h1></Col> */}
+                        <Col flex="auto"><h1 style={{ marginBottom: '0' }} className='pt-md pb-sm'>Gestisci il tuo profilo</h1></Col>
+                        <Col flex="none" >
+                            <Button className='btn-lite' onClick={() => control.navigate(-1)}>
+                                Torma alla App
                             </Button>
-                            <Button type="link" onClick={() => control.navigate(0)}>
-                                Logout
-                            </Button>
+
                         </Col>
                     </Row>
                     <ProfileForm source={user} />
+                    <div className="ec-form bg-block radius-md my-lg padding-xl text-center">
+                        <Button className='btn-dark' onClick={() => control.navigate('/')}>
+                            Logout
+                        </Button>
+                    </div>
                 </div>
             </div>
         </Vista>

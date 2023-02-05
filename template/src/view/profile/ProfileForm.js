@@ -1,6 +1,6 @@
 import { AppModel } from "@essenza/core";
 import { Formix, FormixItem, useForm, useControl } from "@essenza/react";
-import { Col, Button, Form, Input, Row } from 'antd';
+import { Button, Input } from 'antd';
 import React from "react";
 import * as yup from 'yup';
 
@@ -51,45 +51,45 @@ export function ProfileForm({ source, label, title, npath }) {
     }));
     return (
         <>
-            <div className="custom-form bg-sec round-sm mt-sm padding-xl text-left">
-                <Formix control={control} form={form} layout='vertical' >
+            <div className="ec-form bg-block radius-md  padding-xl text-left">
+                <Formix control={control} form={form}  layout='vertical' >
                     <h2 className="pb-md">Profilo</h2>
-                    <FormixItem label="Name" name="tname">
+                    <FormixItem label="Nome" name="tname">
                         <Input>
                         </Input>
                     </FormixItem>
-                    <FormixItem label="Surname" name="tsurname">
+                    <FormixItem label="Cognome" name="tsurname">
                         <Input >
                         </Input>
                     </FormixItem>
-                    <div className="right-align">
-                        <Button className="primaryButton" onClick={() => control.execute("SAVE", "/home")}>
+                    <div className="text-right">
+                        <Button className="btn-dark" onClick={() => control.execute("SAVE", "/settings")}>
                             Aggiorna
                         </Button>
                     </div>
                 </Formix>
             </div>
-            <div className="custom-form bg-sec round-sm mt-sm padding-xl text-left">
+            <div className="ec-form bg-block radius-lg mt-lg padding-xl text-left">
                 <Formix control={control} form={pform} layout='vertical'>
                     <h2 className="pb-md" >Credenziali</h2>
                     <FormixItem label="E-mail" name="temail">
                         <Input >
                         </Input>
                     </FormixItem>
-                    <FormixItem label="Actual Password" name="tpassword">
-                        <Input.Password >
+                    <FormixItem label="Password Attuale" name="tpassword">
+                        <Input.Password autoComplete="new-password" >
                         </Input.Password>
                     </FormixItem>
-                    <FormixItem label="New password" name="npassword">
+                    <FormixItem label="Nuova Password" name="npassword">
                         <Input.Password>
                         </Input.Password>
                     </FormixItem>
-                    <FormixItem label="Confrim new password" name="cpassword">
+                    <FormixItem label="Conferma Nuova Password" name="cpassword">
                         <Input.Password>
                         </Input.Password>
                     </FormixItem>
-                    <div className="right-align">
-                        <Button className="primaryButton" onClick={() => control.execute("CHANGE_PASSWORD", "/home")}>
+                    <div className="text-right">
+                        <Button className="btn-dark" onClick={() => control.execute("CHANGE_PASSWORD", "/settings")}>
                             Aggiorna
                         </Button>
                     </div>

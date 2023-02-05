@@ -49,13 +49,13 @@ export function FirstAccess({ request }) {
             <FormixItem label="Conferma Password" name="cpassword">
                 <Input.Password placeholder="conferma password"></Input.Password>
             </FormixItem>
-            <FormixItem>
-                <Button className='primaryButton' onClick={() => control.execute("FIRST_ACCESS", { token: token, id: id })}>
-                    Confirm
+            <FormixItem className="text-center">
+                <Button className='btn-dark' onClick={() => control.execute("FIRST_ACCESS", { token: token, id: id })}>
+                    Conferma
                 </Button>
             </FormixItem>
         </Formix>
-        : <h6>Expired or invalid Request.</h6>;
+        : <h6>Richiesta scaduta o non valida.</h6>;
 
     return content;
 }

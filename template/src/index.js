@@ -20,7 +20,7 @@ ConfigProvider.config({
 //{document.baseURI.substring(document.baseURI.indexOf(window.location.origin) + window.location.origin.length, document.baseURI.lastIndexOf('/'))}
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter basename="/app">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
 );
