@@ -4,9 +4,9 @@ import * as yup from 'yup';
 import { Button, Input} from 'antd';
 
 import { DataSource, AppModel } from '@essenza/core';
-import { useControl, useForm, useGraph, Formix, FormixItem } from '@essenza/react';
+import { useModel, useForm, useGraph, Formix, FormixItem } from '@essenza/react';
 
-function LoginRecoverController(c) {
+function Controller(c) {
     c.skin = LoginRecover;
     c.state = null;
     c.command = {
@@ -26,10 +26,10 @@ function LoginRecoverController(c) {
 }
 
 export function LoginRecover({ route }) {
-    const [control] = useControl(LoginRecoverController);
+    const [model, control] = useModel(LoginRecover, Controller);
     const [emailed, setEmailed] = useState(false);
     const settings = useGraph("system.settings").data;
-    const form = useForm("loginrec-form", new DataSource({}), control, null, yup.object({
+    const form = useForm("form", new DataSource({}), model, null, yup.object({
         temail: yup.string().required("Email è una informazione richiesta.").email("Formato email non corretto"),
     }));
 
@@ -41,7 +41,7 @@ export function LoginRecover({ route }) {
                         <Input ></Input>
                     </FormixItem>
                     <div className='text-right'>
-                        <Button className='btn-dark' onClick={() => control.execute("RECOVERY", setEmailed, null, null, {route: route})}>
+                        <Button className='btn-dark' onClick={() => control.execute("RECOVERY", setEmailed, null, null, {route: route, form: form})}>
                             Invia Richiesta
                         </Button>
                     </div>

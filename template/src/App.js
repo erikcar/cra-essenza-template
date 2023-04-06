@@ -36,15 +36,19 @@ function initApp(app) {
     });*/
     initialized = true;
     //Common.initialize(app);
-    app.settings.roles = ['Utente'];
-    app.settings.usertype = 0; //se gestisce più ruoli mettere array
-    app.settings.defaultRole = 0;
-    app.settings.defaultRoute = "";
-    app.settings.route =  [""];//Perc ciascun usertype
-    app.navigate("/settings");
+    app.settings.roles = ['Admin']; //Ruoli lable
+    app.settings.usertype = 0; //Ruoli (itype) se gestisce più ruoli mettere array
+    app.settings.defaultRole = 0; //Ruolo di deforult
+    app.settings.defaultRoute = ""; //Default route dell'app ('/' | '/admin')
+    app.settings.route =  null; //["/admin","/partner"];//Per ciascun usertype piattaforma corrispondente
+    //app.navigate("/settings");
   }
 
   return null;
+}
+
+function onload(app) {
+
 }
 
 /**
@@ -53,7 +57,7 @@ function initApp(app) {
  */
 function onlogin(app) {
   console.log("ON LOGIN", app);
-  app.navigate("/settings");
+  app.navigate("/home");
 }
 
 function AppController(c) {

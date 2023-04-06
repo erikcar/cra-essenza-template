@@ -1,21 +1,15 @@
 import { Vista } from "@essenza/react";
 import { useModel, useVista, useGraph } from "@essenza/react";
 
-export function HomeVistaControl(c) {
+export function Controller(c) {
     c.skin = HomeVista;
-    let store = null;
     c.command = {
-        SEARCH: (list, { data }) => {
-            if (!store)
-                store = list;
-            const txt = data.state;
-            c.setSource("procedure.list", store.filter((item) => (txt === '' || (item.istate === txt))));
-        }
+
     }
 }
 
 export function HomeVista(info) {
-    const [ctx, control] = useVista(HomeVistaControl);
+    const [ctx, model, control] = useVista(HomeVista, Controller);
     /*const [model] = useModel();
 
     const procedures = useGraph(ProcedureModel, "list");
@@ -37,6 +31,18 @@ export function HomeVista(info) {
                     <h1 className="mt-sm text-center">HOME</h1>
                 </div>
             </div>
+        </Vista>
+    )
+}
+
+export function HomeMobileVista(info) {
+    const [ctx, model, control] = useVista(HomeMobileVista, Controller);
+
+    console.log("HOME-MOBILE-VISTA");
+
+    return (
+        <Vista context={ctx} >
+            <h4 className="mt-lg text-center">La risoluzione minima supportata dall'applicazione è 1024 x 720 px</h4>
         </Vista>
     )
 }

@@ -14,7 +14,7 @@ function WelcomeController(c) {
 }
 
 export function Welcome({content, token}) {
-    const [ctx, control] = useVista(WelcomeController);
+    const [ctx, model, control] = useVista(Welcome, WelcomeController);
     const app = token.current;
 
     if (!app.irequest)
@@ -27,6 +27,10 @@ export function Welcome({content, token}) {
     else if (app.irequest.type === "EM"){
         control.execute("EMAIL_CHECK", {id: app.irequest.data.get("emid"), token: app.irequest.data.get("emreq")}, app);
         content = <Spin />;
+    }
+    else if (app.irequest.type === "LOG"){
+        setTimeout(()=>{control.navigate("home")}, 2000)
+        content = <Spin size='large' className='centered' />
     }
     else
         content = <>

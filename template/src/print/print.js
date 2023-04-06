@@ -2,7 +2,7 @@ import './print.scss';
 import {Col, Row } from "antd";
 import React from "react";
 
-
+/** THIS IS AN EXAMPLE */
 export const PrintAgenda = React.forwardRef(({ visits, type }, ref) => {
     let day;
     let start;

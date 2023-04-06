@@ -7,7 +7,7 @@ function RecoverVistaController(c) {
 }
 
 export function RecoverVista() {
-    const [ctx] = useVista(RecoverVistaController);
+    const [ctx] = useVista(RecoverVista, RecoverVistaController);
     return (
         <Vista context={ctx} >
             <div className='w100 flex-middle h-main'>

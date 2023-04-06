@@ -15,11 +15,13 @@ const char = 2;
 
 export function AppSchema(app){
     app.setSchema({
-        users: {
-            id:int, tname: string, tsurname: string, temail: string, tpassword: string, itype: int, taddress: string, phone: string, idplatform: int,
-            username: string, nusername: string, nemail: string, emailvalid: bool, phonevalid: bool, twofactor: bool,
-            tportfolio: string, tprofileimage: string, twebsiteurl: string, cvdate: date,
-            mkt: bool, ctrl: bool, tech: bool,
-            tbusinessname:string, tsite: string, tbusinessarea: string, tlogo: string, cap: string},
+            users: {
+                id: int, tname: string, tsurname: string, temail: string, tpassword: string, itype: int, taddress: string, phone: string, idplatform: int,
+                username: string, nusername: string, nemail: string, emailvalid: bool, phonevalid: bool, twofactor: bool, cf: string,  
+                tportfolio: string, tprofileimage: string, twebsiteurl: string, cvdate: date,
+                mkt: bool, ctrl: bool, tech: bool, locked: bool, dlog: date, dlast: date, url: string,
+                tbusinessname: string, tsite: string, tbusinessarea: string, vatnumber: string,tlogo: string, 
+                street: string, num: string, locality: string, code: string, city: string
+            },
     });
 }

@@ -1,9 +1,9 @@
-import { DataModel } from "@essenza/core";
+import { DataModel as Model } from "@essenza/core";
 
-export function SkillModel() {
-    DataModel.call(this, "skill");
+export function DataModel() {
+    Model.call(this, "data");
   
-    this.list = () => {
-      this.ExecuteQuery("list: [skill] {*}", null, true);
+    this.values = () => {
+      this.ExecuteQuery("values: [data] {*}", null, true);
     };
-  }
+}

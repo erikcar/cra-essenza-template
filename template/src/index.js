@@ -4,25 +4,29 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import dayjs from 'dayjs';
+import 'dayjs/locale/it';
+import locale from 'antd/locale/it_IT';
+import { ConfigProvider } from 'antd';
 
+dayjs.locale('it');
 /* CSS Variables => vedi compatibilità
 
-import { ConfigProvider } from 'antd';
 ConfigProvider.config({
   theme: {
     primaryColor: '#25b864',
   },
 });
-<ConfigProvider prefixCls="custom">
-    <MyApp />
-  </ConfigProvider>
 */
-//{document.baseURI.substring(document.baseURI.indexOf(window.location.origin) + window.location.origin.length, document.baseURI.lastIndexOf('/'))}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-    <BrowserRouter>
+  <ConfigProvider locale={locale}>
+    <BrowserRouter basename="/admin">
       <App />
     </BrowserRouter>
+  </ConfigProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -2,12 +2,12 @@ import { Vista, useVista } from "@essenza/react";
 import { Logo } from "../../layout/logo";
 import { Signin } from "../../view/profile/signin_form";
 
-function SigninVistaController(c) {
+function Controller(c) {
     c.skin = SigninVista;
 }
 
 export function SigninVista() {
-    const [ctx] = useVista(SigninVistaController);
+    const [ctx] = useVista(SigninVista, Controller);
     return (
         <Vista context={ctx} >
             <div className='w100 flex-middle h-main'>

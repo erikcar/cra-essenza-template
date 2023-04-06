@@ -4,14 +4,14 @@ import * as yup from 'yup';
 import { Button, Input } from 'antd';
 
 import { DataSource, AppModel } from '@essenza/core';
-import { useControl, useForm, Formix, FormixItem } from '@essenza/react';
+import { useModel, useForm, Formix, FormixItem } from '@essenza/react';
 
-function FirstAccessController(c) {
+function Controller(c) {
     c.skin = FirstAccess;
     c.command = {
         FIRST_ACCESS: async (request, { model, app }) => {
             let form = c.form("fa-form");
-            let result = await form.validate();
+            const result = await c.validate(FirstAccess, "form");
             console.log("FA FORM VALIDATION", form, result);
             if (result.isValid) {
                 request.password = result.data.tpassword;
@@ -22,8 +22,8 @@ function FirstAccessController(c) {
 }
 
 export function FirstAccess({ request }) {
-    const [control] = useControl(FirstAccessController);
-    const form = useForm("fa-form", new DataSource({email: request?.data.get("fam")}), control, null, yup.object({
+    const [model, control] = useModel(FirstAccess, Controller);
+    const form = useForm("form", new DataSource({email: request?.data.get("fam")}), model, null, yup.object({
         tpassword: yup.string().required("Password è una informazione richiesta.").matches(
             /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,24}$/,
             "Deve contenere Almeno 8 Caratteri, almeno una maiuscola, almeno una minuscola, almeno un umero ed almeno un carattere speciale"

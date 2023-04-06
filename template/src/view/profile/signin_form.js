@@ -4,14 +4,14 @@ import * as yup from 'yup';
 import { Button, Input, Spin } from 'antd';
 
 import { DataSource, AppService } from '@essenza/core';
-import { useControl, useForm, useGraph, Formix, FormixItem } from '@essenza/react';
+import { useModel, useForm, useGraph, Formix, FormixItem } from '@essenza/react';
 
-function SigninController(c) {
+function Controller(c) {
     c.skin = Signin;
     c.command = {
-        SIGNIN: async (name, {model, app, route}) => {
+        SIGNIN: async (name, {form, route}) => {
             name = name || "signin-form";
-            const result = await c.form(name).validate();
+            const result = await form.validate();
             if(result.isValid){
                 const data = result.values;
                 c.openPopup(<Spin />, "SIGNIN");
@@ -25,9 +25,9 @@ function SigninController(c) {
 }
 
 export function Signin({ vmodel }) {
-    const [control] = useControl(SigninController);
+    const [model, control] = useModel(Signin, Controller);
     const settings = useGraph("system.settings").data;
-    const form = useForm("signin-form", new DataSource({}), control, null, yup.object({
+    const form = useForm("signin-form", new DataSource({}), model, null, yup.object({
         temail: yup.string().required("Email è una informazione richiesta.").email("Formato email non corretto"),
         tpassword: yup.string().required("Password è una informazione richiesta.").matches(
             ///^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@#$%^&(){}[]:;<>,.?~_+-=|\]).{8,32}$/,
@@ -51,7 +51,7 @@ export function Signin({ vmodel }) {
                 <Input.Password placeholder="confirm password"></Input.Password>
             </FormixItem>
             <FormixItem>
-                <Button className='btn-dark' onClick={() => control.execute("SIGNIN", "signin-form", null, null, {route: settings.BaseUrl})}>
+                <Button className='btn-dark' onClick={() => control.execute("SIGNIN", "signin-form", null, null, {route: settings.BaseUrl, form: form})}>
                     Registarti
                 </Button>
             </FormixItem>

@@ -9,10 +9,10 @@ function ProfileVistaController(c) {
 }
 
 export function ProfileVista({ vmodel }) {
-    const [ctx, control] = useVista(ProfileVistaController);
-    const [model] = useModel();
-    const user = useGraph(UserModel, "profile");
+    const [ctx, model, control] = useVista(ProfileVista, ProfileVistaController);
 
+    const user = useGraph(UserModel, "profile");
+    
     useEffect(() => {
         if (model) {
             model.read(UserModel, m => m.profile());
@@ -32,7 +32,6 @@ export function ProfileVista({ vmodel }) {
                             <Button className='btn-lite' onClick={() => control.navigate(-1)}>
                                 Torma alla App
                             </Button>
-
                         </Col>
                     </Row>
                     <ProfileForm source={user} />

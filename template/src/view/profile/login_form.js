@@ -3,14 +3,14 @@ import * as yup from 'yup';
 import { Button, Input } from 'antd';
 
 import { DataSource, AppModel } from '@essenza/core';
-import { useControl, useForm, Formix, FormixItem } from '@essenza/react';
+import { useModel, useForm, Formix, FormixItem } from '@essenza/react';
 
-function LoginController(c) {
+function Controller(c) {
     c.skin = Login;
     c.command = {
         LOGIN: async (info, { model, app }) => {
             let name = info.name || "login-form";
-            const result = await c.form(name).validate();
+            const result = await info.form.validate();
             if (result.isValid) {
                 const call = [
                     m => m.login(data.temail, data.tpassword),
@@ -31,8 +31,14 @@ function LoginController(c) {
                     }, 1000)
                 }
                 else {
-                    model.request(AppModel, call[info.mode]).then(r => {
-                        app.login(r);
+                    model.request(AppModel, call[info.mode]).then(s => {
+                        const settings = app.settings;
+                        if(settings.usertype !== parseInt(s.itype) && settings.router){
+                            localStorage.setItem("_session", JSON.stringify(s));
+                            window.location = window.location.origin + settings.router[s.itype] + "?loginreq=y";
+                        }
+                        else
+                            app.login(s);
                     });
                 }
             }
@@ -42,8 +48,8 @@ function LoginController(c) {
 
 export function Login({ nosignin, mode, role }) {
     mode = mode || 0;
-    const [control] = useControl(LoginController);
-    const form = useForm("login-form", new DataSource({}), control, null, yup.object({
+    const [model, control] = useModel(Login, Controller);
+    const form = useForm("form", new DataSource({}), model, null, yup.object({
         temail: yup.string().required("Email è una informazione richiesta.").email("Formato email non corretto"),
         tpassword: yup.string().required("Password è una informazione richiesta."),
     }));
@@ -65,7 +71,7 @@ export function Login({ nosignin, mode, role }) {
                 Password dimenticata ?
             </Button>
             <FormixItem>
-                <Button className='btn-dark' onClick={() => control.execute("LOGIN", {mode: mode, role: role})}>
+                <Button className='btn-dark' onClick={() => control.execute("LOGIN", {mode: mode, role: role, form: form})}>
                     Login
                 </Button>
             </FormixItem>

@@ -34,11 +34,11 @@ function SettingVistaController(c) {
     }
 }
 
-export const domains = ['bvlg.bcc.it'];
+export const domains = ['bvlg.bcc.it', 'bancavaldarno.bcc.it', 'bancacentro.it', 'bancadipisa.it', 'bancaelba.it', 'bancatema.bcc.it', 'bancofiorentino.it', 'bat.bcc.it',
+    'bccas.it', 'bccvaldarnofiorentino.it', 'bpc.bcc.it', 'ft.bcc.it', 'pontassieve.bcc.it', 'vivalbanca.bcc.it'];
 
 export function SettingVista({ platform }) {
-    const [ctx, control] = useVista(SettingVistaController);
-    const [model] = useModel();
+    const [ctx, model, control] = useVista(SettingVista, SettingVistaController);
     const users = useGraph(UserModel, "list");
     const app = useApp();
     //const [count, setCount] = useState(0);
@@ -63,7 +63,7 @@ export function SettingVista({ platform }) {
     if(!isadmin){
         return null;
     }
-    
+
     return (
         <Vista context={ctx}>
             <div className="w100">

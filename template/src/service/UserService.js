@@ -1,10 +1,10 @@
 import { ApiService } from "@essenza/core";
 
-export function UserService() {
+export function AppService() {
   ApiService.call(this);
 
-  this.getFiscalCode = (data) => {
-    return this.ExecuteApi("cf", data);
+  this.test = (message) => {
+    return this.ExecuteApi("test_api", {value: message});
   };
 
 }

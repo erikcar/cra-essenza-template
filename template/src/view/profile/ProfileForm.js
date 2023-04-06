@@ -1,14 +1,13 @@
 import { AppModel } from "@essenza/core";
-import { Formix, FormixItem, useForm, useControl } from "@essenza/react";
+import { Formix, FormixItem, useForm, useModel } from "@essenza/react";
 import { Button, Input } from 'antd';
 import React from "react";
 import * as yup from 'yup';
 
-function ProfileFormController(c) {
+function Controller(c) {
     c.skin = ProfileForm;
     c.command = {
-        SAVE: async (path, { control, model }) => {
-            let form = control.form("profile-form");
+        SAVE: async (path, { control, model, form }) => {
             let result = await form.validate();
             if (result.isValid) {
                 if (result.isValid) {
@@ -21,8 +20,7 @@ function ProfileFormController(c) {
                 }
             }
         },
-        CHANGE_PASSWORD: async (path, { control, model }) => {
-            let form = control.form("password-form");
+        CHANGE_PASSWORD: async (path, { control, model, form }) => {
             let result = await form.validate();
             if (result.isValid) {
                 model.request(AppModel, m => m.changePassword(result.data).then((r) => {
@@ -37,9 +35,9 @@ function ProfileFormController(c) {
 }
 
 export function ProfileForm({ source, label, title, npath }) {
-    const [control] = useControl(ProfileFormController);
-    const form = useForm("profile-form", source, control);
-    const pform = useForm("password-form", source, control, null, yup.object({
+    const [model, control] = useModel(ProfileForm, Controller);
+    const form = useForm("profile-form", source, model);
+    const pform = useForm("password-form", source, model, null, yup.object({
         temail: yup.string().required("Email è una informazione richiesta.").email("Formato email non corretto"),
         npassword: yup.string().required("Password è una informazione richiesta.").matches(
             /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,24}$/,
@@ -63,7 +61,7 @@ export function ProfileForm({ source, label, title, npath }) {
                         </Input>
                     </FormixItem>
                     <div className="text-right">
-                        <Button className="btn-dark" onClick={() => control.execute("SAVE", "/settings")}>
+                        <Button className="btn-dark" onClick={() => control.execute("SAVE", "/settings",null,null,{form: form})}>
                             Aggiorna
                         </Button>
                     </div>
@@ -89,7 +87,7 @@ export function ProfileForm({ source, label, title, npath }) {
                         </Input.Password>
                     </FormixItem>
                     <div className="text-right">
-                        <Button className="btn-dark" onClick={() => control.execute("CHANGE_PASSWORD", "/settings")}>
+                        <Button className="btn-dark" onClick={() => control.execute("CHANGE_PASSWORD", "/settings",null,null,{form: pform})}>
                             Aggiorna
                         </Button>
                     </div>

@@ -1,10 +1,10 @@
 import { Button, Table } from 'antd';
 
 import React from 'react';
-import { useControl } from '@essenza/react';
+import { useModel } from '@essenza/react';
 import { DataSource } from '@essenza/core';
 
-function UserController(c) {
+function Controller(c) {
     c.skin = UserList;
     c.command = {
         EDIT: (source) => {
@@ -31,7 +31,7 @@ function UserController(c) {
 }
 
 export function UserList({ source }) {
-    const [control] = useControl(UserController);
+    const [model, control] = useModel(UserList, Controller);
     console.log("USER-LIST", source);
     return (
         <div className="scrolling-section-104">

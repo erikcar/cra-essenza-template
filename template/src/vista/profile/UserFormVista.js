@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom";
 import { UserForm } from "../../view/profile/user_form";
 import { UserModel } from "@essenza/core";
 
-function UserFormVistaController(c) {
+function Controller(c) {
     c.skin = UserFormVista;
 }
 
 export function UserFormVista() {
-    const [ctx, control] = useVista(UserFormVistaController);
+    const [ctx, model, control] = useVista(UserFormVista, Controller);
     const user = useGraph(UserModel, "item");
     const state = useLocation().state;
     return (
