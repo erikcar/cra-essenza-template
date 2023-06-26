@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import { Button, Input } from 'antd';
 
-import { DataSource, AppModel } from '@essenza/core';
-import { useModel, useForm, Formix, FormixItem } from '@essenza/react';
+import { DataSource, AppModel, useModel, useForm, Formix, FormixItem } from 'essenza';
 
 function Controller(c) {
     c.skin = Login;
-    c.command = {
-        LOGIN: async (info, { model, app }) => {
-            let name = info.name || "login-form";
+    c.intent = {
+        LOGIN: async ({ value, model, app }) => {
+            const info = value;
             const result = await info.form.validate();
             if (result.isValid) {
                 const call = [
@@ -60,7 +59,7 @@ export function Login({ nosignin, mode, role }) {
     }, []);
     
     return (
-        <Formix control={control} form={form} layout='vertical' className="layout-form">
+        <Formix form={form} layout='vertical' className="layout-form">
             <FormixItem label="E-mail" name="temail">
                 <Input></Input>
             </FormixItem>
@@ -71,7 +70,7 @@ export function Login({ nosignin, mode, role }) {
                 Password dimenticata ?
             </Button>
             <FormixItem>
-                <Button className='btn-dark' onClick={() => control.execute("LOGIN", {mode: mode, role: role, form: form})}>
+                <Button className='btn-dark' onClick={() => model.emit("LOGIN", {mode: mode, role: role, form: form})}>
                     Login
                 </Button>
             </FormixItem>

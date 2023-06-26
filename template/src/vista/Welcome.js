@@ -1,14 +1,13 @@
 import { Button, Spin } from 'antd';
-import { Vista, useVista, useApp } from "@essenza/react";
-import { AppService } from "@essenza/core";
+import { Vista, useVista, AppService, useApp } from "essenza";
 import { FirstAccess } from '../view/profile/login_firstaccess';
 import { Logo } from '../layout/logo';
 
 function WelcomeController(c) {
     c.skin = Welcome;
-    c.command = {
-        EMAIL_CHECK : (request, { data })=>{
-            c.request(AppService, m => m.emailConfirm(request).then(r => data.login(r)));
+    c.intent = {
+        EMAIL_CHECK : ({ value, data })=>{
+            c.request(AppService, m => m.emailConfirm(value).then(r => data.login(r)));
         }
     }
 }
@@ -25,7 +24,7 @@ export function Welcome({content, token}) {
     else if (app.irequest.type === "FA")
         content = <FirstAccess request={app.irequest} />;
     else if (app.irequest.type === "EM"){
-        control.execute("EMAIL_CHECK", {id: app.irequest.data.get("emid"), token: app.irequest.data.get("emreq")}, app);
+        model.emit("EMAIL_CHECK", {id: app.irequest.data.get("emid"), token: app.irequest.data.get("emreq")}, app);
         content = <Spin />;
     }
     else if (app.irequest.type === "LOG"){

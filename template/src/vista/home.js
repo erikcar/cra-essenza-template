@@ -1,9 +1,8 @@
-import { Vista } from "@essenza/react";
-import { useModel, useVista, useGraph } from "@essenza/react";
+import { Vista, useModel, useVista, useGraph } from "essenza";
 
 export function Controller(c) {
     c.skin = HomeVista;
-    c.command = {
+    c.intent = {
 
     }
 }

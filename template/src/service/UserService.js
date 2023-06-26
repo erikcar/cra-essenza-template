@@ -1,4 +1,4 @@
-import { ApiService } from "@essenza/core";
+import { ApiService } from "essenza";
 
 export function AppService() {
   ApiService.call(this);

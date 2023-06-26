@@ -1,4 +1,4 @@
-import { Vista, useVista } from "@essenza/react";
+import { Vista, useVista } from "essenza";
 import { FirstAccess } from "../../view/profile/login_firstaccess";
 
 function Controller(c) {

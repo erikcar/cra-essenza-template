@@ -14,7 +14,7 @@ $color-swap-map: (
 );
 $btn-bordered: #c7c7c7;*/
 
-@import '@essenza/core/src/style/lib.scss';
+@import 'essenza/src/style/lib.scss';
 
 // include 
 @include es-header;

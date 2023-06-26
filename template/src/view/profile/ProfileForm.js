@@ -1,29 +1,28 @@
-import { AppModel } from "@essenza/core";
-import { Formix, FormixItem, useForm, useModel } from "@essenza/react";
+import { AppModel, Formix, FormixItem, useForm, useModel } from "essenza";
 import { Button, Input } from 'antd';
 import React from "react";
 import * as yup from 'yup';
 
 function Controller(c) {
     c.skin = ProfileForm;
-    c.command = {
-        SAVE: async (path, { control, model, form }) => {
+    c.intent = {
+        SAVE: async ({ value, control, form }) => {
             let result = await form.validate();
             if (result.isValid) {
                 if (result.isValid) {
-                    model.request(AppModel, m => m.updateProfile(result.data).then((r) => {
-                        if (path)
-                            control.navigate(path);
+                    control.request(AppModel, m => m.updateProfile(result.data).then((r) => {
+                        if (value)
+                            control.navigate(value);
                         else
                             control.closePopup();
                     }));
                 }
             }
         },
-        CHANGE_PASSWORD: async (path, { control, model, form }) => {
+        CHANGE_PASSWORD: async ({ value:path, control, form }) => {
             let result = await form.validate();
             if (result.isValid) {
-                model.request(AppModel, m => m.changePassword(result.data).then((r) => {
+                control.request(AppModel, m => m.changePassword(result.data).then((r) => {
                     if (path)
                         control.navigate(path);
                     else

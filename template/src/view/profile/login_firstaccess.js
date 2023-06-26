@@ -3,26 +3,24 @@ import * as yup from 'yup';
 
 import { Button, Input } from 'antd';
 
-import { DataSource, AppModel } from '@essenza/core';
-import { useModel, useForm, Formix, FormixItem } from '@essenza/react';
+import { DataSource, AppModel, useModel, useForm, Formix, FormixItem } from 'essenza';
 
 function Controller(c) {
     c.skin = FirstAccess;
-    c.command = {
-        FIRST_ACCESS: async (request, { model, app }) => {
-            let form = c.form("fa-form");
+    c.intent = {
+        FIRST_ACCESS: async ({ value, app }) => {
             const result = await c.validate(FirstAccess, "form");
-            console.log("FA FORM VALIDATION", form, result);
+            console.log("FA FORM VALIDATION", result);
             if (result.isValid) {
-                request.password = result.data.tpassword;
-                model.read(AppModel, m => m.passwordReset(request).then(r => app.login(r)));
+                value.password = result.data.tpassword;
+                c.request(AppModel, m => m.passwordReset(value).then(r => app.login(r)));
             }
         }
     }
 }
 
 export function FirstAccess({ request }) {
-    const [model, control] = useModel(FirstAccess, Controller);
+    const [model] = useModel(FirstAccess, Controller);
     const form = useForm("form", new DataSource({email: request?.data.get("fam")}), model, null, yup.object({
         tpassword: yup.string().required("Password è una informazione richiesta.").matches(
             /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,24}$/,
@@ -39,7 +37,7 @@ export function FirstAccess({ request }) {
     console.log("FA TOKEN", token);
 
     const content = request
-        ? <Formix control={control} form={form} style={{marginTop: '24px'}} layout='vertical' className="layout-form">
+        ? <Formix form={form} style={{marginTop: '24px'}} layout='vertical' className="layout-form">
             <FormixItem label="Email" name="email">
                 <Input disabled={true} placeholder="Email"></Input>
             </FormixItem>
@@ -50,7 +48,7 @@ export function FirstAccess({ request }) {
                 <Input.Password placeholder="conferma password"></Input.Password>
             </FormixItem>
             <FormixItem className="text-center">
-                <Button className='btn-dark' onClick={() => control.execute("FIRST_ACCESS", { token: token, id: id })}>
+                <Button className='btn-dark' onClick={() => model.emit("FIRST_ACCESS", { token: token, id: id })}>
                     Conferma
                 </Button>
             </FormixItem>

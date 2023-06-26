@@ -2,8 +2,7 @@ import './style.scss';
 import React, { useRef } from 'react';
 import { Route, Routes, useNavigate, useSearchParams } from 'react-router-dom';
 
-import { version, Test } from '@essenza/core';
-import { AppRoot, useBreakPoint } from '@essenza/react';
+import { version, Test, AppRoot, useBreakPoint } from 'essenza';
 
 import { AppSchema } from './schema';
 import { MainLayout } from './layout/MainLayout';
@@ -17,7 +16,6 @@ import { CheckEmail } from './vista/profile/Signin';
 import { SettingVista } from './vista/profile/SettingVista';
 import { UserFormVista } from './vista/profile/UserFormVista';
 import { HomeVista } from './vista/home';
-//import { Common } from '@xxx/common';
 
 let initialized = false;
 

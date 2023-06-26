@@ -1,23 +1,22 @@
 import { Row, Col, Button } from 'antd';
 import React, { useEffect } from 'react';
-import { useGraph, useModel, useVista, Vista } from '@essenza/react';
+import { UserModel, useGraph, useModel, useVista, Vista } from 'essenza';
 import { ProfileForm } from '../../view/profile/ProfileForm';
-import { UserModel } from '@essenza/core';
 
 function ProfileVistaController(c) {
     c.skin = ProfileVista;
 }
 
-export function ProfileVista({ vmodel }) {
+export function ProfileVista() {
     const [ctx, model, control] = useVista(ProfileVista, ProfileVistaController);
 
     const user = useGraph(UserModel, "profile");
     
     useEffect(() => {
-        if (model) {
-            model.read(UserModel, m => m.profile());
+        if (control) {
+            control.request(UserModel, m => m.profile());
         }
-    }, [model]);
+    }, [control]);
 
     if (!user.data) return null;
 

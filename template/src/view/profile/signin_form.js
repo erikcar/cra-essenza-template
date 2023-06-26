@@ -3,14 +3,14 @@ import * as yup from 'yup';
 
 import { Button, Input, Spin } from 'antd';
 
-import { DataSource, AppService } from '@essenza/core';
-import { useModel, useForm, useGraph, Formix, FormixItem } from '@essenza/react';
+import { DataSource, AppService, useModel, useForm, useGraph, Formix, FormixItem } from 'essenza';
 
 function Controller(c) {
     c.skin = Signin;
-    c.command = {
-        SIGNIN: async (name, {form, route}) => {
-            name = name || "signin-form";
+    c.intent = {
+        SIGNIN: async ({value}) => {
+            const route = value.route;
+            const form = value.form;
             const result = await form.validate();
             if(result.isValid){
                 const data = result.values;
@@ -24,7 +24,7 @@ function Controller(c) {
     }
 }
 
-export function Signin({ vmodel }) {
+export function Signin() {
     const [model, control] = useModel(Signin, Controller);
     const settings = useGraph("system.settings").data;
     const form = useForm("signin-form", new DataSource({}), model, null, yup.object({
@@ -40,7 +40,7 @@ export function Signin({ vmodel }) {
     }));
 
     return (
-        <Formix control={control} form={form} layout='vertical' className="layout-form">
+        <Formix form={form} layout='vertical' className="layout-form">
             <FormixItem label="E-mail" name="temail">
                 <Input placeholder="email"></Input>
             </FormixItem>
@@ -51,7 +51,7 @@ export function Signin({ vmodel }) {
                 <Input.Password placeholder="confirm password"></Input.Password>
             </FormixItem>
             <FormixItem>
-                <Button className='btn-dark' onClick={() => control.execute("SIGNIN", "signin-form", null, null, {route: settings.BaseUrl, form: form})}>
+                <Button className='btn-dark' onClick={() => model.emit("SIGNIN", {route: settings.BaseUrl, form: form})}>
                     Registarti
                 </Button>
             </FormixItem>

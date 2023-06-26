@@ -1,8 +1,6 @@
-import { Row, Col, Button } from 'antd';
 import React, { useEffect } from 'react';
-import { useGraph, useModel, useVista, Vista } from '@essenza/react';
+import { useGraph, UserModel, useVista, Vista } from 'essenza';
 import { StartForm } from '../../view/profile/StartForm';
-import { UserModel } from '@essenza/core';
 import { useLocation } from 'react-router-dom';
 
 function Controller(c) {
@@ -16,14 +14,14 @@ export function StartVista({ vmodel }) {
     const info = useLocation().state;
 
     useEffect(() => {
-        if (model) {
+        if (control) {
             if (info.user === "F")
-                model.read(UserModel, m => m.eprofile(info.email));
+                control.request(UserModel, m => m.eprofile(info.email));
             else {
-                model.setSource(UserModel, { temail: info.email }, "profile");
+                control.setSource(UserModel, { temail: info.email }, "profile");
             }
         }
-    }, [model]);
+    }, [control]);
 
     if (!user.data) return null;
 

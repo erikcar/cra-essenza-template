@@ -1,4 +1,4 @@
-import { Vista, useVista } from "@essenza/react";
+import { Vista, useVista } from "essenza";
 import { Logo } from "../../layout/logo";
 import { Signin } from "../../view/profile/signin_form";
 

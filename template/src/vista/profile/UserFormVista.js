@@ -1,7 +1,6 @@
-import {Vista, useVista, useGraph} from "@essenza/react";
 import { useLocation } from "react-router-dom";
 import { UserForm } from "../../view/profile/user_form";
-import { UserModel } from "@essenza/core";
+import { UserModel, Vista, useVista, useGraph } from "essenza";
 
 function Controller(c) {
     c.skin = UserFormVista;

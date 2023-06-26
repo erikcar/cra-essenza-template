@@ -1,4 +1,4 @@
-import { DataModel as Model } from "@essenza/core";
+import { DataModel as Model } from "essenza";
 
 export function DataModel() {
     Model.call(this, "data");

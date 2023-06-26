@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
-import {Vista, useVista} from "@essenza/react";
-import LoginScreen from '@pam/common/src/assets/img/pam.jpg';
+import {Vista, useVista} from "essenza";
+import LoginScreen from '../../assets/img/login.jpg';
 import { Login } from "../../view/profile/login_form";
 import { Logo } from "../../layout/logo";
 

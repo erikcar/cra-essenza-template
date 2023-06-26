@@ -1,17 +1,14 @@
 import { Button, Table } from 'antd';
 
 import React from 'react';
-import { useModel } from '@essenza/react';
-import { DataSource } from '@essenza/core';
+import { useModel } from 'essenza';
 
 function Controller(c) {
     c.skin = UserList;
-    c.command = {
-        EDIT: (source) => {
-            //c.setSource("lesson.item", item); //Forse dovrebbe farlo Model? si che dovrebbe avere anche varie source
-            c.setSource("users.item", source.data);
+    c.intent = {
+        EDIT: ({value}) => {
+            c.source("users").item = value;
             c.navigate("userform", { state: { label: 'Aggiorna', isUpdate: true  } });
-            //c.openPopup(<UserForm source={source} label="Aggiorna" />, "Modifica Utente", null, { excludeOk: true, excludeCancel: true });
         },
 
         UPDATE: (item, { value, node, field }) => {
@@ -20,10 +17,10 @@ function Controller(c) {
             node.save();
         },
 
-        DELETE: (node, { data }) => {
+        DELETE: ({ value: source, data }) => {
             c.openPopup("Sei sicuro di voler eliminare l'utente selezionato?", "Elimina", 400, {
                 onconfirm: () => {
-                    node.delete(data.id);
+                    source.remove(data);
                 }
             });
         },
@@ -31,19 +28,18 @@ function Controller(c) {
 }
 
 export function UserList({ source }) {
-    const [model, control] = useModel(UserList, Controller);
+    const [model] = useModel(UserList, Controller);
     console.log("USER-LIST", source);
     return (
         <div className="scrolling-section-104">
-            <Table rowKey="id" columns={UserCols(control, source)} dataSource={source?.getData(null, true)} pagination={false} className="setting-table" >
+            <Table rowKey="id" columns={UserCols(model, source)} dataSource={source?.getData(null, true)} pagination={false} className="setting-table" >
             </Table>
         </div>
     )
 }
 
 const users = ["Amministratore", "Operatore", "Partner", "Utente"];
-function UserCols(control, source) {
-    //const npatient = node.discendant("patient");
+function UserCols(model, source) {
     return [
         {
             title: "Cognome",
@@ -70,20 +66,15 @@ function UserCols(control, source) {
             width: "100%"
         },
         {
-            //title: "Elimina",
-            //dataIndex: "id",
             key: "id",
             render: (text, record) => {
-                return (<Button className='btn-lite' onClick={() => control.execute("DELETE", source.node, record)}>Elimina</Button>)
+                return (<Button className='btn-lite' onClick={() => model.emit("DELETE", source, record)}>Elimina</Button>)
             },
         },
         {
-            //title: "Modifica",
-            //dataIndex: "id",
             key: "id",
-            //"EDIT", record
             render: (text, record) => {
-                return (<Button className='btn-pri'  onClick={() => control.execute("EDIT", new DataSource(record, source.node))} >Modifica</Button>)
+                return (<Button className='btn-pri'  onClick={() => model.emit("EDIT", record)} >Modifica</Button>)
             },
         },
     ]
